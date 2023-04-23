@@ -1,0 +1,10 @@
+version: '3.9'
+
+services:
+  frontend:
+    build:
+      context: .
+      args:
+        NX_API_URL: ${NX_API_URL}
+    ports:
+      - 4200:80
