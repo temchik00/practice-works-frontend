@@ -1,0 +1,53 @@
+.side-pannel {
+  position: absolute;
+  height: 100%;
+  background-color: #151219;
+  box-shadow: 6px 0px 5px rgba(10, 10, 10, 0.4);
+  width: 81px;
+  transition: width 0.5s ease-in-out;
+  overflow-x: hidden;
+
+  &:hover {
+    width: fit-content;
+  }
+
+  &-content {
+    padding: 40px 0px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 40px;
+    overflow-x: hidden;
+    height: 100%;
+  }
+
+  &-item {
+    text-decoration: none;
+    padding: 8px 20px;
+    cursor: pointer;
+    display: flex;
+    column-gap: 22px;
+    align-items: end;
+    &:hover {
+      background: linear-gradient(
+        90deg,
+        rgba(255, 134, 36, 0) 0%,
+        rgba(255, 134, 36, 0.1) 20%,
+        rgba(255, 134, 36, 0.6) 100%
+      );
+    }
+    &:last-child {
+      margin-top: auto;
+    }
+
+    &-icon {
+      width: 41px;
+      height: 41px;
+    }
+
+    &-text {
+      font-size: 30px;
+      white-space: nowrap;
+      color: #eafaea;
+    }
+  }
+}
