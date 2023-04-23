@@ -1,0 +1,10 @@
+.error {
+  color: #cc1111;
+  display: flex;
+  align-items: center;
+  column-gap: 5px;
+  &-icon {
+    fill: #cc1111;
+    width: 15px;
+  }
+}

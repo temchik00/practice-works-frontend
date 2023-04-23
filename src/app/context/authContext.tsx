@@ -3,7 +3,12 @@ import { FC, useState, ReactNode, createContext, useCallback } from 'react';
 import IToken from '../interfaces/IToken';
 
 type SignIn = (formdata: FormData) => Promise<void>;
-type SignUp = (username: string, password: string) => Promise<void>;
+type SignUp = (userdata: {
+  username: string;
+  password: string;
+  first_name: string | undefined;
+  last_name: string | undefined;
+}) => Promise<void>;
 type LogOut = () => void;
 type FullLogOut = () => Promise<void>;
 type Refresh = () => Promise<string>;
@@ -62,12 +67,16 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
   );
 
   const signUp: SignUp = useCallback(
-    async (username, password) => {
+    async (userdata) => {
+      let data = new Map();
+      for (const [key, value] of Object.entries(userdata)) {
+        if (value) data.set(key, value);
+      }
       try {
-        const response = await axios.post<IToken>('/auth/signup', {
-          username,
-          password,
-        });
+        const response = await axios.post<IToken>(
+          '/auth/signup',
+          Object.fromEntries(data)
+        );
         setAccessToken(`${response.data.type} ${response.data.access_token}`);
         setIsAuthorized(true);
       } catch (error) {
