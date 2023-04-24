@@ -10,6 +10,7 @@ import Profile from './app/pages/profile/profile';
 import Chat from './app/pages/chat/chat';
 import PersistLogin from './app/components/routeHelpers/persistLogin';
 import Registration from './app/pages/registration/registration';
+import { UserProvider } from './app/context/userContext';
 
 const router = createBrowserRouter([
   {
@@ -43,7 +44,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <StrictMode>
     <AuthProvider>
-      <RouterProvider router={router} />
+      <UserProvider>
+        <RouterProvider router={router} />
+      </UserProvider>
     </AuthProvider>
   </StrictMode>
 );
