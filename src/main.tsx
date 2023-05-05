@@ -20,7 +20,6 @@ const router = createBrowserRouter([
       { path: 'calculator', element: <Calculator /> },
       { path: 'signin', element: <Authorization /> },
       { path: 'signup', element: <Registration /> },
-
       {
         element: <PersistLogin />,
         children: [
@@ -34,6 +33,7 @@ const router = createBrowserRouter([
           },
         ],
       },
+      { path: 'profile/:profileId', element: <Profile /> },
     ],
   },
 ]);

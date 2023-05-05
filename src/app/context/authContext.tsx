@@ -44,12 +44,15 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
   }, [accessToken, isAuthorized]);
 
   const fullLogOut: FullLogOut = useCallback(async () => {
-    await axios.post(
-      '/auth/logout',
-      {},
-      { headers: { Authorization: accessToken } }
-    );
-    logout();
+    try {
+      await axios.post(
+        '/auth/logout',
+        {},
+        { headers: { Authorization: accessToken } }
+      );
+    } finally {
+      logout();
+    }
   }, [accessToken, logout]);
 
   const signIn: SignIn = useCallback(
