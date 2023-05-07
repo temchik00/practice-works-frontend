@@ -21,6 +21,7 @@
   flex-direction: column-reverse;
   row-gap: 10px;
   scrollbar-width: none;
+  flex-grow: 1;
 }
 
 .message-container::-webkit-scrollbar {

@@ -93,12 +93,7 @@ export function useChat() {
   );
 
   const getMessages = useCallback(
-    async (
-      chatId: string,
-      page_size: number,
-      controller: AbortController | null,
-      start?: number
-    ) => {
+    async (chatId: string, page_size: number, start?: number) => {
       try {
         let params;
         if (start) params = { page_size, start };
@@ -107,7 +102,6 @@ export function useChat() {
           `/chat/${chatId}/messages`,
           {
             params: params,
-            signal: controller ? controller.signal : undefined,
           }
         );
         if (new_messages.data.length === 0) setFirstMessageId(-1);
@@ -118,6 +112,26 @@ export function useChat() {
       } catch (error) {}
     },
     [axiosPrivate, firstMessageId, addMessages]
+  );
+
+  const getInitialMessages = useCallback(
+    async (chatId: string, page_size: number, controller: AbortController) => {
+      try {
+        let new_messages = await axiosPrivate.get<IMessage[]>(
+          `/chat/${chatId}/messages`,
+          {
+            params: { page_size },
+            signal: controller.signal,
+          }
+        );
+        if (new_messages.data.length === 0) setFirstMessageId(-1);
+        else setFirstMessageId(new_messages.data[0].id);
+        const repacked = await repackMessages(new_messages.data);
+        repacked.sort((a, b) => b.id - a.id);
+        setMessages(repacked);
+      } catch (error) {}
+    },
+    [messages, firstMessageId, axiosPrivate]
   );
 
   const handleSocketMessage = useCallback(
@@ -210,7 +224,7 @@ export function useChat() {
   useEffect(() => {
     const updateMessages = async () => {
       if (shouldUpdate && chatId && firstMessageId && firstMessageId != -1) {
-        await getMessages(chatId, page_size, null, firstMessageId);
+        await getMessages(chatId, page_size, firstMessageId);
         setShouldUpdate(false);
       }
     };
@@ -222,7 +236,7 @@ export function useChat() {
     let socket: WebSocket | null = null;
     if (chatId) {
       socket = connect(chatId);
-      getMessages(chatId, page_size, abortController, firstMessageId);
+      getInitialMessages(chatId, page_size, abortController);
       getChatName(abortController);
     }
     return () => {
