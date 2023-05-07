@@ -11,12 +11,17 @@ import Chat from './app/pages/chat/chat';
 import PersistLogin from './app/components/routeHelpers/persistLogin';
 import Registration from './app/pages/registration/registration';
 import { UserProvider } from './app/context/userContext';
+import NotFound from './app/pages/notFound/notFound';
+import ErrorRedirect from './app/components/routeHelpers/errorRedirect';
+import ChatSelector from './app/pages/chatSelector/chatSelector';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <Root />,
+    errorElement: <ErrorRedirect />,
     children: [
+      { path: '404', element: <NotFound /> },
       { path: 'calculator', element: <Calculator /> },
       { path: 'signin', element: <Authorization /> },
       { path: 'signup', element: <Registration /> },
@@ -28,7 +33,11 @@ const router = createBrowserRouter([
             // protected paths
             children: [
               { path: 'profile', element: <Profile /> },
-              { path: 'chat', element: <Chat /> },
+              {
+                path: 'chat',
+                element: <ChatSelector />,
+                children: [{ path: ':chatId', element: <Chat /> }],
+              },
             ],
           },
         ],

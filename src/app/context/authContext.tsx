@@ -15,6 +15,7 @@ type Refresh = () => Promise<string>;
 
 export const AuthContext = createContext<{
   isAuthorized: boolean | undefined;
+  pureAccessToken: string | undefined;
   accessToken: string | undefined;
   signIn: SignIn;
   signUp: SignUp;
@@ -23,6 +24,7 @@ export const AuthContext = createContext<{
   fullLogOut: FullLogOut;
 }>({
   isAuthorized: undefined,
+  pureAccessToken: undefined,
   accessToken: undefined,
   signIn: async () => {},
   signUp: async () => {},
@@ -37,11 +39,15 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
   );
 
   const [accessToken, setAccessToken] = useState<string | undefined>(undefined);
+  const [pureAccessToken, setPureAccessToken] = useState<string | undefined>(
+    undefined
+  );
 
   const logout: LogOut = useCallback(() => {
     setIsAuthorized(false);
     setAccessToken(undefined);
-  }, [accessToken, isAuthorized]);
+    setPureAccessToken(undefined);
+  }, [accessToken, isAuthorized, pureAccessToken]);
 
   const fullLogOut: FullLogOut = useCallback(async () => {
     try {
@@ -60,13 +66,14 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
       try {
         const response = await axios.post<IToken>('/auth/signin', formdata);
         setAccessToken(`${response.data.type} ${response.data.access_token}`);
+        setPureAccessToken(response.data.access_token);
         setIsAuthorized(true);
       } catch (error) {
         logout();
         throw error;
       }
     },
-    [isAuthorized, accessToken, logout]
+    [isAuthorized, accessToken, logout, pureAccessToken]
   );
 
   const signUp: SignUp = useCallback(
@@ -81,19 +88,21 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
           Object.fromEntries(data)
         );
         setAccessToken(`${response.data.type} ${response.data.access_token}`);
+        setPureAccessToken(response.data.access_token);
         setIsAuthorized(true);
       } catch (error) {
         logout();
         throw error;
       }
     },
-    [isAuthorized, accessToken, logout]
+    [isAuthorized, accessToken, logout, pureAccessToken]
   );
 
   const refresh: Refresh = useCallback(async () => {
     try {
       const response = await axios.post<IToken>('/auth/refresh', {});
       const newAccessToken = `${response.data.type} ${response.data.access_token}`;
+      setPureAccessToken(response.data.access_token);
       setAccessToken(newAccessToken);
       setIsAuthorized(true);
       return newAccessToken;
@@ -101,13 +110,14 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
       logout();
       throw error;
     }
-  }, [accessToken, isAuthorized, logout]);
+  }, [accessToken, isAuthorized, logout, pureAccessToken]);
 
   return (
     <AuthContext.Provider
       value={{
         isAuthorized,
         accessToken,
+        pureAccessToken,
         signIn,
         signUp,
         refresh,

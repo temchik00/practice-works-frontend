@@ -1,16 +1,16 @@
 import axios from 'axios';
 
+const baseURL = process.env.NX_API_URL
+  ? 'http://' + process.env.NX_API_URL
+  : 'http://localhost:8002';
+
 export default axios.create({
-  baseURL: process.env.NX_API_URL
-    ? process.env.NX_API_URL
-    : 'http://localhost:8002',
+  baseURL: baseURL,
   withCredentials: true,
 });
 
 export const axiosPrivate = axios.create({
-  baseURL: process.env.NX_API_URL
-    ? process.env.NX_API_URL
-    : 'http://localhost:8002',
+  baseURL: baseURL,
   headers: {
     'Content-Type': 'application/json',
   },
