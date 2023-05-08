@@ -3,6 +3,7 @@ import styles from './chat.module.scss';
 import { useChat } from './useChat';
 import { IMessageExtended } from 'src/app/interfaces/IMessage';
 import ChatMessage from 'src/app/components/chatMessage/chatMessage';
+import Dialog from 'src/app/components/dialog/dialog';
 
 export default function Chat() {
   const {
@@ -10,9 +11,15 @@ export default function Chat() {
     userMessage,
     user,
     chatName,
+    dialogOpen,
+    addUserId,
     handleMessagesScroll,
     setMessage,
     sendMessage,
+    openDialog,
+    closeDialog,
+    updateUserId,
+    addUser,
   } = useChat();
 
   const messagesList = useMemo(() => {
@@ -26,23 +33,54 @@ export default function Chat() {
   }, [messages]);
 
   return (
-    <div className={styles['container']}>
-      <div className={styles['chat-header']}>{chatName}</div>
-      <div
-        className={styles['message-container']}
-        onScroll={handleMessagesScroll}
-      >
-        {messagesList}
+    <>
+      <div className={styles['container']}>
+        <div className={styles['chat-header']}>
+          <div className={styles['title']}>{chatName}</div>
+          <button className={styles['add-button']} onClick={openDialog}>
+            Добавить
+          </button>
+        </div>
+        <div
+          className={styles['message-container']}
+          onScroll={handleMessagesScroll}
+        >
+          {messagesList}
+        </div>
+        <form className={styles['input-container']} onSubmit={sendMessage}>
+          <input
+            className={styles['input']}
+            type="text"
+            value={userMessage}
+            onChange={setMessage}
+          />
+          <button className={styles['button']}>send</button>
+        </form>
       </div>
-      <form className={styles['input-container']} onSubmit={sendMessage}>
+      <Dialog
+        visible={dialogOpen}
+        title="Добавление пользователя"
+        rejectText="Отмена"
+        acceptText="Добавить"
+        onReject={closeDialog}
+        onAccept={addUser}
+      >
+        <label
+          htmlFor="chat-add-user"
+          className={styles['chat-add-user-label']}
+        >
+          Id пользователя
+        </label>
         <input
-          className={styles['input']}
-          type="text"
-          value={userMessage}
-          onChange={setMessage}
+          id="chat-add-user"
+          name="chat-add-user"
+          placeholder="Id пользователя"
+          type="number"
+          className={styles['chat-add-user']}
+          value={addUserId}
+          onChange={updateUserId}
         />
-        <button className={styles['button']}>send</button>
-      </form>
-    </div>
+      </Dialog>
+    </>
   );
 }

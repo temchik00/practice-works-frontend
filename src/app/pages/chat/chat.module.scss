@@ -6,12 +6,32 @@
   height: 100%;
   width: 80%;
   row-gap: 20px;
+  border-left: 1px solid #eafaea;
 }
 
 .chat-header {
   font-family: 'Courier New', Courier, monospace;
   font-size: 30px;
   font-weight: 600;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  width: 100%;
+}
+
+.title {
+  grid-column: 2;
+  text-align: center;
+}
+
+.add-button {
+  cursor: pointer;
+  font-size: 22px;
+  background-color: #ff8624;
+  border-radius: 4px;
+  padding: 5px 10px;
+  color: inherit;
+  width: fit-content;
+  justify-self: end;
 }
 
 .message-container {
@@ -48,9 +68,24 @@
 }
 
 .button {
+  cursor: pointer;
   font-size: 22px;
   background-color: #ff8624;
   border-radius: 4px;
+  padding: 5px 10px;
+  color: inherit;
+}
+
+.chat-add-user-label {
+  font-size: 18;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.chat-add-user {
+  font-size: 22px;
+  background-color: #151219;
+  border-radius: 4px;
+  border: 2px solid black;
   padding: 5px 10px;
   color: inherit;
 }

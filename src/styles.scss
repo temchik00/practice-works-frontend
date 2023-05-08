@@ -1,5 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
-* {
+*:not(dialog) {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -8,5 +8,5 @@
 html,
 body {
   background-color: #19151b;
-  color: #EAFAEA;
+  color: #eafaea;
 }

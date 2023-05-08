@@ -1,0 +1,39 @@
+.modal {
+  background-color: #1e1a20;
+  border-radius: 8px;
+  color: inherit;
+  border: none;
+  outline: none;
+  &::backdrop {
+    background: rgba(0, 0, 0, 0.3);
+  }
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+}
+
+.title {
+  font-size: 36px;
+}
+
+.buttons-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.button {
+  cursor: pointer;
+  font-size: 28px;
+  border-radius: 4px;
+  color: inherit;
+  padding: 0 4px;
+  &-accept {
+    background-color: #ff8624;
+  }
+  &-reject {
+    background-color: #242026;
+  }
+}
