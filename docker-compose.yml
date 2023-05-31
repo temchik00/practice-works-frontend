@@ -6,5 +6,6 @@ services:
       context: .
       args:
         NX_API_URL: ${NX_API_URL}
+        NX_TELEGRAM_DISCUSSION: ${NX_TELEGRAM_DISCUSSION}
     ports:
       - 4200:80

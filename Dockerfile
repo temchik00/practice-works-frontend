@@ -6,6 +6,7 @@ RUN npm ci
 COPY . .
 
 ARG NX_API_URL
+ARG NX_TELEGRAM_DISCUSSION
 RUN npm run build
 
 FROM nginx:1.21.0-alpine as production
