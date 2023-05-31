@@ -16,12 +16,14 @@ const Dialog = (props: IDialogProps) => {
           >
             {props.rejectText}
           </button>
-          <button
-            className={`${styles['button']} ${styles['button-accept']}`}
-            onClick={props.onAccept}
-          >
-            {props.acceptText}
-          </button>
+          {props.onAccept && (
+            <button
+              className={`${styles['button']} ${styles['button-accept']}`}
+              onClick={props.onAccept}
+            >
+              {props.acceptText}
+            </button>
+          )}
         </div>
       </div>
     </dialog>

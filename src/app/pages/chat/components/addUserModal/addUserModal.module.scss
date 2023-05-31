@@ -1,0 +1,28 @@
+.chat-add-user-label {
+  font-size: 18;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.chat-add-user {
+  font-size: 22px;
+  background-color: #151219;
+  border-radius: 4px;
+  border: 2px solid black;
+  padding: 5px 10px;
+  color: inherit;
+}
+
+.search-result-item {
+  list-style: none;
+}
+
+.search-result-item {
+  cursor: pointer;
+  color: inherit;
+  padding: 8px 5px;
+  font-size: 20px;
+}
+
+.search-result-item:nth-child(2n + 1) {
+  background-color: #242026;
+}

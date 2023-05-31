@@ -3,23 +3,21 @@ import styles from './chat.module.scss';
 import { useChat } from './useChat';
 import { IMessageExtended } from 'src/app/interfaces/IMessage';
 import ChatMessage from 'src/app/components/chatMessage/chatMessage';
-import Dialog from 'src/app/components/dialog/dialog';
+import AddUserModal from './components/addUserModal/addUserModal';
 
 export default function Chat() {
   const {
+    chatId,
     messages,
     userMessage,
     user,
     chatName,
     dialogOpen,
-    addUserId,
     handleMessagesScroll,
     setMessage,
     sendMessage,
+    setDialogOpen,
     openDialog,
-    closeDialog,
-    updateUserId,
-    addUser,
   } = useChat();
 
   const messagesList = useMemo(() => {
@@ -57,30 +55,11 @@ export default function Chat() {
           <button className={styles['button']}>send</button>
         </form>
       </div>
-      <Dialog
-        visible={dialogOpen}
-        title="Добавление пользователя"
-        rejectText="Отмена"
-        acceptText="Добавить"
-        onReject={closeDialog}
-        onAccept={addUser}
-      >
-        <label
-          htmlFor="chat-add-user"
-          className={styles['chat-add-user-label']}
-        >
-          Id пользователя
-        </label>
-        <input
-          id="chat-add-user"
-          name="chat-add-user"
-          placeholder="Id пользователя"
-          type="number"
-          className={styles['chat-add-user']}
-          value={addUserId}
-          onChange={updateUserId}
-        />
-      </Dialog>
+      <AddUserModal
+        chatId={chatId}
+        dialogOpen={dialogOpen}
+        setDialogOpen={setDialogOpen}
+      />
     </>
   );
 }

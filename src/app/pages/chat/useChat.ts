@@ -39,9 +39,9 @@ export function useChat() {
   const [userMessage, setUserMessage] = useState<string>('');
   const [shouldUpdate, setShouldUpdate] = useState<boolean>(false);
   const [chatName, setChatName] = useState<string>('');
-  const [dialogOpen, setDialogOpen] = useState<boolean>(false);
-  const [addUserId, setAddUserId] = useState<string>('');
   const { user } = useUser();
+
+  const [dialogOpen, setDialogOpen] = useState<boolean>(false);
 
   const getChatName = useCallback(
     async (controller: AbortController) => {
@@ -227,27 +227,6 @@ export function useChat() {
     setDialogOpen(true);
   }, [dialogOpen]);
 
-  const closeDialog = useCallback(() => {
-    setAddUserId('');
-    setDialogOpen(false);
-  }, [dialogOpen, addUserId]);
-
-  const updateUserId = useCallback(
-    (e: any) => {
-      setAddUserId(e.target.value);
-    },
-    [addUserId]
-  );
-
-  const addUser = useCallback(async () => {
-    if (!addUserId) return;
-    try {
-      await axiosPrivate.post(`/chat/${chatId}/user`, { user_id: addUserId });
-    } catch (error) {}
-    setAddUserId('');
-    setDialogOpen(false);
-  }, [dialogOpen, axiosPrivate, addUserId, chatId]);
-
   useEffect(() => {
     const updateMessages = async () => {
       if (shouldUpdate && chatId && firstMessageId && firstMessageId != -1) {
@@ -273,18 +252,16 @@ export function useChat() {
   }, [chatId]);
 
   return {
+    chatId,
     messages,
     userMessage,
     user,
     chatName,
-    addUserId,
     dialogOpen,
     handleMessagesScroll,
     setMessage,
     sendMessage,
-    updateUserId,
+    setDialogOpen,
     openDialog,
-    closeDialog,
-    addUser,
   };
 }
