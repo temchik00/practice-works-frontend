@@ -14,6 +14,7 @@ import { UserProvider } from './app/context/userContext';
 import NotFound from './app/pages/notFound/notFound';
 import ErrorRedirect from './app/components/routeHelpers/errorRedirect';
 import ChatSelector from './app/pages/chatSelector/chatSelector';
+import Telegram from './app/pages/telegram/telegram';
 
 const router = createBrowserRouter([
   {
@@ -22,6 +23,7 @@ const router = createBrowserRouter([
     errorElement: <ErrorRedirect />,
     children: [
       { path: '404', element: <NotFound /> },
+      { path: 'telegram', element: <Telegram /> },
       { path: 'calculator', element: <Calculator /> },
       { path: 'signin', element: <Authorization /> },
       { path: 'signup', element: <Registration /> },

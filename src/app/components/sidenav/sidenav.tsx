@@ -15,6 +15,7 @@ export function Sidenav(props: DefaultParams) {
           text="Калькулятор"
         />
         <SidenavItem href="chat" iconPath="message.svg" text="Чат" />
+        <SidenavItem href="telegram" iconPath="telegram.svg" text="Телеграм" />
         {isAuthorized ? (
           <SidenavItem
             onClick={fullLogOut}
