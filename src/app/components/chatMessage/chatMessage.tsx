@@ -1,6 +1,7 @@
 import { IMessageExtended } from 'src/app/interfaces/IMessage';
 import styles from './chatMessage.module.scss';
 import { Link } from 'react-router-dom';
+import { useMemo } from 'react';
 
 const ChatMessage = ({
   message,
@@ -9,6 +10,15 @@ const ChatMessage = ({
   message: IMessageExtended;
   fromSelf: boolean;
 }) => {
+  const username = useMemo(() => {
+    const user = message.user;
+    if (!user.first_name && !user.last_name) return user.username;
+    let name = '';
+    if (user.first_name) name += `${user.first_name} `;
+    if (user.last_name) name += `${user.last_name} `;
+    name += `(${user.username})`;
+    return name;
+  }, [message]);
   return (
     <div
       className={`${styles['container']}${
@@ -20,7 +30,7 @@ const ChatMessage = ({
           className={styles['info-user']}
           to={`/profile/${message.user_id}`}
         >
-          {message.user.username}
+          {username}
         </Link>
         <div className={styles['info-datetime']}>
           {message.date_send.toDateString() == new Date().toDateString()
